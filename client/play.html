@@ -66,12 +66,12 @@
             <hr>
             <div class="row">
               <div class="col-md-12">
-                <div class="thumbnail">
-                  <img src="http://i.imgur.com/UR4kLBm.png" alt="logo">
+                <div class="thumbnail" style="align-items='center'">
+                  <img v-bind:src="soals[index].soal" alt="logo">
                   <div class="caption">
-                    <h3>TESTING</h3>
-                    <p>permainan dengan category testing.</p>
-                    <p><a href="#" class="btn btn-primary" role="button">Play</a> <a href="#" class="btn btn-default" role="button">Play</a></p>
+                    <h3><span>category : {{ soals[index].category }}</span></h3>
+                    <h1>SCORE: {{ totalScore }}</h1>
+                    <h1><a @click="updateScore()">POST</a></h1>
                   </div>
                 </div>
               </div>
@@ -90,25 +90,32 @@
         </div>
 
       </div>
+
     </div>
 
   <script type="text/javascript">
     var app = new Vue({
       el: '#app',
       data: {
+        index : 0,
+        totalScore: 0,
         message: 'Hello Vue!',
         result: '',
         soals: []
       },
       created () {
         var self = this
-        axios.get('http://localhost:3000/soal')
+        axios.get('http://localhost:3000/soal/cat/'+'testing')
         .then(function(response) {
-          console.log(response);
-          self.soals = response
+          console.log(response.data);
+          self.soals = response.data
         })
+        this.startConverting()
       },
       methods: {
+        updateScore () {
+          axios.put('http://localhost:3000/users/'+'')
+        },
         startConverting() {
           var self = this
 
@@ -127,13 +134,32 @@
                 var transcript = event.results[i][0].transcript;
                 transcript.replace("\n", "<br>");
                 console.log(transcript);
-                if(transcript.toLowerCase()== " hapus semuanya"){
+                console.log(self.totalScore);
+                console.log(self.soals[self.index].jawaban);
+                if (self.soals.length == 0) {
+                  alert("You WIn THIS GAME!!")
+                } else if(transcript.toLowerCase()== " hapus semuanya"){
                   speechRecognizer.stop()
                   location.reload()
-                } else if (transcript.toLowerCase()== " udah") {
-                  alert('udah')
-                } else if (transcript.toLowerCase()== " soal selanjutnya") {
+                } else if (transcript.toLowerCase() == self.soals[self.index].jawaban.toLowerCase()) {
+                  alert('betul')
+                  self.totalScore += 20
+                  self.soals.splice(self.soals[self.index], 1)
+                  console.log("transcript", self.soals[self.index].jawaban);
+                } else if (transcript.toLowerCase()== " lanjut") {
+                  self.index += 1
+                  console.log('ini soalnya : ',self.soals);
+                  if (self.index < 5) {
+                    self.index += 1
+                  } else if (self.index == 5) {
+                    self.index = 0
+                  }
+                  console.log(self.index);
+                } else if (transcript.toLowerCase()== " hapus") {
+                  self.result = ''
+                } else if (transcript.toLowerCase()== " nyerah") {
                   alert('skip')
+
                 } else {
                   transcript.replace("\n", "<br>");
                   if (event.results[i].isFinal ) {
@@ -143,7 +169,7 @@
                   }
                 }
               }
-              self.result = finalTranscripts + interimTranscripts;
+              self.result = interimTranscripts;
             };
             speechRecognizer.onerror = function (event) {
             };
