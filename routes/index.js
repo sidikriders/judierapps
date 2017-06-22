@@ -27,6 +27,8 @@ router.delete('/soal/:id', soalCont.deleteSoal)
 // update soal
 router.put('/soal/:id', soalCont.updateSoal)
 
+//post twitter
+router.post('/twitt', userCont.postTweet)
 
 
 module.exports = router;

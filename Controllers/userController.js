@@ -13,7 +13,7 @@ function logIn(req, res) {
       res.send("invalid username")
     } else {
       if (bcrypt.compareSync(req.body.password, result.password)) {
-        let token = jwt.sign({name: result.name}, "tebakGambar")
+        let token = jwt.sign({name: result.name, aidi: result._id}, "tebakGambar")
         res.send(token)
       } else {
         res.send("invalid password");
@@ -76,10 +76,32 @@ function updateScore(req, res) {
   })
 }
 
+var Twitter = require('twitter');
+
+var client = new Twitter({
+  consumer_key: 'lA92NbIW6MwniRKeKg2vD8T5Q',
+  consumer_secret: 'KelSsUvSwMkaKmczWlpHs6PBh3jHOzpbwEFHiQRxSI1ZQDXU1n',
+  access_token_key: '877289825212157952-FwrVToFBy8ZqFczYdflLA6GNfZw4Xvh',
+  access_token_secret: 'EvG4zTZuZ7AuJMkhW97xOLOxouNVJlBVqVjqdj8GhZ75N'
+});
+
+function postTweet(req, res) {
+  client.post('/statuses/update', {
+    status: req.body.twitt
+  }, function(error, tweet, response) {
+    if (error) console.log(error);
+    // console.log(tweet);  // Tweet body.
+    // console.log(response);  // Raw response object.
+    res.send(tweet);
+  });
+}
+
 module.exports = {
   logIn,
   signUp,
   getAllUser,
   getOneUser,
-  updateScore
+  updateScore,
+  postTweet
+
 }
