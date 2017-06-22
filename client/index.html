@@ -12,91 +12,151 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/style/style.css">
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="">
+    <div id="app">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
           <div class="">
-            <div class="row">
-              <div class="col-md-6">
-                <a class="navbar-brand" href="index.html">
-                  <img src="http://i.imgur.com/LRGiJ9i.png" alt="logo-judier">
-                </a>
-              </div>
-              <div class="flex-right col-md-5 col-offset-md-1">
-                <tbody style="margin-top:17px;">
-                  <div class="" style="margin-right:10px;">
-                    <label for="" style="display:inherit">Password</label>
-                    <input type="text" name="" value="">
-                  </div>
-                  <div class="">
-                    <label for="">Username</label> <br>
-                    <input type="text" name="" value="" style="margin-right:10px">
-                    <button type="button" name="button">Login</button>
-                  </div>
-                </tbody>
+            <div class="">
+              <div class="row">
+                <div class="col-md-6">
+                  <a class="navbar-brand" href="index.html">
+                    <img src="http://i.imgur.com/LRGiJ9i.png" alt="logo-judier">
+                  </a>
+                </div>
+                <div class="flex-right col-md-5 col-offset-md-1">
+                  <tbody style="margin-top:17px;">
+                    <div class="" style="margin-right:10px;">
+                      <label for="" style="display:inherit">Username</label>
+                      <input type="text" v-model="userLogin">
+                    </div>
+                    <div class="">
+                      <label for="">Password</label> <br>
+                      <input type="password" v-model="passLogin" style="margin-right:10px">
+                      <button type="button" name="button" @click="logInGoGo()">Login</button>
+                    </div>
+                  </tbody>
+                </div>
               </div>
             </div>
-          </div>
 
-        </div>
-      </div><!-- /.container-fluid -->
-    </nav>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8">
-          <img src="http://i.imgur.com/UR4kLBm.png" alt="logo">
-          <h1>getting started</h1>
-          <div class="background-gambar">
-            <img src="http://i.imgur.com/X21mb7X.png" alt="">
           </div>
-        </div>
-        <div class="col-md-4">
+        </div><!-- /.container-fluid -->
+      </nav>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <img src="http://i.imgur.com/UR4kLBm.png" alt="logo">
+            <h1>getting started</h1>
+            <div class="background-gambar">
+              <img src="http://i.imgur.com/X21mb7X.png" alt="">
+            </div>
+          </div>
+          <div class="col-md-4">
 
-          <h1 style="text-align:">Registration Form</h1>
-          <h4>Gratis, sampai kapanpun.</h4>
-          <hr>
-          <div class="form-login">
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputName" placeholder="input your Name" required="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputUsername" placeholder="input your Username" required="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                <div class="col-sm-10">
-                  <input type="password" class="form-control" id="inputPassword3" placeholder="input your Password" required="">
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                  <div class="checkbox">
-                    <label>
-                      <a href="login.html">Already Have an Account?</a>
-                    </label>
+            <h1 style="text-align:">Registration Form</h1>
+            <h4>Gratis, sampai kapanpun.</h4>
+            <hr>
+            <div class="form-login">
+              <div class="form-horizontal">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputName" placeholder="input your Name" v-model="newName">
                   </div>
                 </div>
-              </div>
-              <div class="form-group">
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputUsername" placeholder="input your Username" v-model="newUsername">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" id="inputPassword3" placeholder="input your Password" v-model="newPassword">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                      <label>
+                        <a href="login.html">Already Have an Account?</a>
+                      </label>
+                    </div>
+                  </div>
+                </div>
                 <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-default">Sign in</button>
+                  <button class="btn btn-default" @click="signUpGoGo">Sign Up</button>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <script type="text/javascript">
+    var app = new Vue({
+  el: '#app',
+  data: {
+    userLogin: '',
+    passLogin: '',
+    newName: '',
+    newUsername: '',
+    newPassword: ''
+  },
+  methods: {
+    logInGoGo: function() {
+      let self = this;
+      axios.post('http://localhost:3000/signin', {
+        username: self.userLogin,
+        password: self.passLogin,
+      })
+      .then(function (response) {
+        if (response.data == "invalid password") {
+          alert("Invalid Password")
+          self.passLogin = ''
+        } else if (response.data == "invalid username") {
+          alert("invalid username")
+          self.passLogin = '';
+          self.userLogin = '';
+        } else {
+          console.log("masuk");
+          console.log(response);
+          localStorage.setItem('token', response.data)
+          self.passLogin = '';
+          self.userLogin = '';
+          alert("redirect ke home user")
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    },
+    signUpGoGo: function() {
+      let self = this;
+      console.log(self.newName);
+      console.log(self.newUsername);
+      console.log(self.newPassword);
+      // axios.post('http://localhost:3000/signup', {
+      //   name: self.newName,
+      //   username: self.newUsername,
+      //   password: self.newPassword
+      // })
+      // .then(function (response) {
+      //   console.log(response);
+      // })
+      // .catch(function (error) {
+      //   console.log(error);
+      // })
+    }
+  }
+})
+    </script>
   </body>
 </html></h1>
