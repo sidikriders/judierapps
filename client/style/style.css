@@ -1,0 +1,50 @@
+body {
+    padding-top: 0px;
+    background-image: url('/img/bg.jpg');
+}
+.form-login {
+  padding: 30px;
+  border-style: 1px;
+  border-radius: 10px;
+  background-color: #d9e8d7;
+  width: auto;
+}
+.form-control {
+  width: 90%;
+  margin-left: 30px;
+}
+.navbar-brand>img {
+  display: block;
+  height: 50px;
+  width: auto;
+}
+.navbar-brand {
+  height: 82px;
+  min-width: 980px;
+  margin-top: 17px;
+}
+.nav navbar-nav navbar-right {
+  margin-top: 17px;
+}
+.background-gambar {
+  height: auto !important;
+  width: auto !important;
+}
+.nav {
+  margin-top: 17px
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+.nav>li>a {
+  position: relative;
+  display: block;
+  padding: 25px 25px;
+  margin-top: 17px;
+}
+.flex-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 99px;
+}
