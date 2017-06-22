@@ -117,7 +117,9 @@ methods: {
     let self = this
     axios.get('http://localhost:3000/users')
     .then(function (response) {
-      self.leaderboard = response.data
+      self.leaderboard = response.data.sort((a,b) => {
+        return b.totalScore - a.totalScore
+      })
     })
     .catch(function (error) {
       console.log(error);
