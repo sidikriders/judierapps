@@ -12,9 +12,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="/style/style.css">
   </head>
   <body>
+  <div id="app">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -49,7 +51,7 @@
                   <div class="caption">
                     <h3>TESTING</h3>
                     <p>permainan dengan category testing.</p>
-                    <p><a href="play.html" class="btn btn-primary" role="button">Play</a> <a href="#" class="btn btn-default" role="button">Play</a></p>
+                    <p><a @click="playGoGo('testing')" class="btn btn-primary" role="button">Play</a></p>
                   </div>
                 </div>
               </div>
@@ -59,7 +61,7 @@
                   <div class="caption">
                     <h3>ROMANCE</h3>
                     <p>permainan dengan category romance</p>
-                    <p><a href="#" class="btn btn-primary" role="button">Play</a> <a href="#" class="btn btn-default" role="button">Play</a></p>
+                    <p><a @click="playGoGo('romance')" class="btn btn-primary" role="button">Play</a></p>
                   </div>
                 </div>
               </div>
@@ -69,40 +71,61 @@
                   <div class="caption">
                     <h3>RANDOM</h3>
                     <p>permainan dengan category random</p>
-                    <p><a href="#" class="btn btn-primary" role="button">Play</a> <a href="#" class="btn btn-default" role="button">Play</a></p>
+                    <p><a @click="playGoGo('random')" class="btn btn-primary" role="button">Play</a></p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="col-md-3">
-          <h1>leaderboard</h1>
+          <h1>All Time Leaderboard</h1>
           <hr>
           <ul class="list-group">
-            <li class="list-group-item">
-              <span class="badge">140</span>
-              Erwin
-            </li>
-            <li class="list-group-item">
-              <span class="badge">120</span>
-              Sidik
-            </li>
-            <li class="list-group-item">
-              <span class="badge">98</span>
-              Jumadi
-            </li>
-            <li class="list-group-item">
-              <span class="badge">72</span>
-              Angga
+            <li v-for="user in leaderboard" class="list-group-item">
+              <span class="badge">{{ user.weeklyScore }}</span>
+              {{ user.username}}
             </li>
           </ul>
         </div>
 
       </div>
-
     </div>
-
+  </div>
+    <script type="text/javascript">
+var app = new Vue({
+el: '#app',
+data: {
+  leaderboard: [],
+},
+created() {
+  let token = localStorage.token
+  if (token == undefined) {
+    location.href = "/index.html"
+  }
+},
+mounted() {
+  this.getAllUser()
+},
+methods: {
+  playGoGo: function(category) {
+    localStorage.setItem("category", category)
+    location.href = "/play.html"
+  },
+  getAllUser: function() {
+    let self = this
+    axios.get('http://localhost:3000/users')
+    .then(function (response) {
+      self.leaderboard = response.data
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+}
+})
+    </script>
 
   </body>
 </html>
