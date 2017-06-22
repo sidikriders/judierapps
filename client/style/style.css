@@ -48,3 +48,7 @@ body {
   align-items: center;
   height: 99px;
 }
+img {
+  height: 100px;
+  width: auto;
+}

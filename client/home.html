@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.js"</script>
+
+    <!-- Latest compiled and minified CSS -->
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/style/style.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="">
+          <div class="">
+            <div class="row">
+              <div class="col-md-6">
+                <a class="navbar-brand" href="index.html">
+                  <img src="http://i.imgur.com/LRGiJ9i.png" alt="logo-judier">
+                </a>
+              </div>
+              <div class="flex-right col-md-5 col-offset-md-1">
+                <a @click="logout()">Logout</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <h1>Paket Soal</h1>
+          <hr>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="thumbnail">
+                  <img src="http://i.imgur.com/UR4kLBm.png" alt="...">
+                  <div class="caption">
+                    <h3>TESTING</h3>
+                    <p>permainan dengan category testing.</p>
+                    <p><a href="play.html" class="btn btn-primary" role="button">Play</a> <a href="#" class="btn btn-default" role="button">Play</a></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="thumbnail">
+                  <img src="http://i.imgur.com/UR4kLBm.png" alt="...">
+                  <div class="caption">
+                    <h3>ROMANCE</h3>
+                    <p>permainan dengan category romance</p>
+                    <p><a href="#" class="btn btn-primary" role="button">Play</a> <a href="#" class="btn btn-default" role="button">Play</a></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="thumbnail">
+                  <img src="http://i.imgur.com/UR4kLBm.png" alt="...">
+                  <div class="caption">
+                    <h3>RANDOM</h3>
+                    <p>permainan dengan category random</p>
+                    <p><a href="#" class="btn btn-primary" role="button">Play</a> <a href="#" class="btn btn-default" role="button">Play</a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <h1>leaderboard</h1>
+          <hr>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <span class="badge">140</span>
+              Erwin
+            </li>
+            <li class="list-group-item">
+              <span class="badge">120</span>
+              Sidik
+            </li>
+            <li class="list-group-item">
+              <span class="badge">98</span>
+              Jumadi
+            </li>
+            <li class="list-group-item">
+              <span class="badge">72</span>
+              Angga
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </body>
+</html>

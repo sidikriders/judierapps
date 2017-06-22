@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.js"</script>
+
+    <!-- Latest compiled and minified CSS -->
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/style/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.min.css" />
+		<style type="text/css">
+			body{
+				font-family: verdana;
+			}
+			#result{
+				height: 200px;
+				border: 1px solid #ccc;
+				padding: 10px;
+				box-shadow: 0 0 10px 0 #bbb;
+				margin-bottom: 30px;
+				font-size: 14px;
+				line-height: 25px;
+			}
+			button{
+				font-size: 20px;
+				position: absolute;
+				top: 240px;
+				left: 50%;
+			}
+		</style>
+  </head>
+  <body>
+    <div id="app">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="">
+            <div class="">
+              <div class="row">
+                <div class="col-md-6">
+                  <a class="navbar-brand" href="index.html">
+                    <img src="http://i.imgur.com/LRGiJ9i.png" alt="logo-judier">
+                  </a>
+                </div>
+                <div class="flex-right col-md-5 col-offset-md-1">
+                  <a @click="logout()">Logout</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /.container-fluid -->
+      </nav>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Paket Soal</h1>
+            <hr>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="thumbnail">
+                  <img src="http://i.imgur.com/UR4kLBm.png" alt="logo">
+                  <div class="caption">
+                    <h3>TESTING</h3>
+                    <p>permainan dengan category testing.</p>
+                    <p><a href="#" class="btn btn-primary" role="button">Play</a> <a href="#" class="btn btn-default" role="button">Play</a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <h4 align="center"></h4>
+      		<div id="result">
+            <p> {{ result }} </p>
+
+          </div>
+      		<!-- <button onclick="startConverting();"><i class="fa fa-microphone"></i></button> -->
+      		<button @click="startConverting()"><i class="fa fa-microphone"></i></button>
+
+        </div>
+
+      </div>
+    </div>
+
+  <script type="text/javascript">
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!',
+        result: '',
+        soals: []
+      },
+      created () {
+        var self = this
+        axios.get('http://localhost:3000/soal')
+        .then(function(response) {
+          console.log(response);
+          self.soals = response
+        })
+      },
+      methods: {
+        startConverting() {
+          var self = this
+
+          if('webkitSpeechRecognition' in window){
+            var speechRecognizer = new webkitSpeechRecognition();
+            speechRecognizer.continuous = true;
+            speechRecognizer.interimResults = true;
+            speechRecognizer.lang = 'id-ID';
+            speechRecognizer.start();
+
+            var finalTranscripts = '';
+
+            speechRecognizer.onresult = function(event){
+              var interimTranscripts = '';
+              for(var i = event.resultIndex; i < event.results.length; i++){
+                var transcript = event.results[i][0].transcript;
+                transcript.replace("\n", "<br>");
+                console.log(transcript);
+                if(transcript.toLowerCase()== " hapus semuanya"){
+                  speechRecognizer.stop()
+                  location.reload()
+                } else if (transcript.toLowerCase()== " udah") {
+                  alert('udah')
+                } else if (transcript.toLowerCase()== " soal selanjutnya") {
+                  alert('skip')
+                } else {
+                  transcript.replace("\n", "<br>");
+                  if (event.results[i].isFinal ) {
+                    finalTranscripts += transcript;
+                  } else{
+                    interimTranscripts += transcript;
+                  }
+                }
+              }
+              self.result = finalTranscripts + interimTranscripts;
+            };
+            speechRecognizer.onerror = function (event) {
+            };
+          }else{
+            self.result = 'Your browser is not supported. If google chrome, please upgrade!';
+          }
+        }
+      }
+    })
+  </script>
+  </body>
+</html>
