@@ -77,6 +77,26 @@ function updateScore(req, res) {
   })
 }
 
+
+var Twitter = require('twitter');
+
+var client = new Twitter({
+  consumer_key: 'lA92NbIW6MwniRKeKg2vD8T5Q',
+  consumer_secret: 'KelSsUvSwMkaKmczWlpHs6PBh3jHOzpbwEFHiQRxSI1ZQDXU1n',
+  access_token_key: '877289825212157952-FwrVToFBy8ZqFczYdflLA6GNfZw4Xvh',
+  access_token_secret: 'EvG4zTZuZ7AuJMkhW97xOLOxouNVJlBVqVjqdj8GhZ75N'
+});
+
+function postTweet(req, res) {
+  client.post('/statuses/update', {
+    status: req.body.twitt
+  }, function(error, tweet, response) {
+    if (error) console.log(error);
+    // console.log(tweet);  // Tweet body.
+    // console.log(response);  // Raw response object.
+    res.send(tweet);
+  });
+
 function deleteOne(req, res) {
   User.remove({
     _id: req.params.id
@@ -92,5 +112,6 @@ module.exports = {
   getAllUser,
   getOneUser,
   updateScore,
+  postTweet,
   deleteOne
 }

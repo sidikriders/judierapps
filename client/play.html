@@ -6,7 +6,8 @@
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.js"</script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="jwt_decode.js"></script>
 
     <!-- Latest compiled and minified CSS -->
     <!-- Optional theme -->
@@ -72,6 +73,7 @@
                     <h3><span>category : {{ soals[index].category }}</span></h3>
                     <h1>SCORE: {{ totalScore }}</h1>
                     <h1><a @click="updateScore()">POST</a></h1>
+                    <h1><a @click="twitt()">SHARE TWITTER</a></h1>
                   </div>
                 </div>
               </div>
@@ -109,17 +111,40 @@
         if (token == undefined) {
           location.href = "/index.html"
         } else {
-          axios.get('http://localhost:3000/soal/cat/'+'testing')
-          .then(function(response) {
-            console.log(response.data);
-            self.soals = response.data
-          })
-          this.startConverting()
+        axios.get('http://localhost:3000/soal/cat/'+localStorage.getItem('category'))
+        .then(function(response) {
+          console.log(response.data);
+          self.soals = response.data
+        })
+        this.startConverting()
         }
       },
       methods: {
+        twitt () {
+          var token = localStorage.getItem('token')
+          var decoded = jwt_decode(token);
+          var self = this
+          var data = decoded.name + ' mendapatkan score ' + self.totalScore + ' dalam permainan JUDIER-APPS'
+          axios.post('http://localhost:3000/twitt',{
+            twitt: data
+          })
+        },
         updateScore () {
-          axios.put('http://localhost:3000/users/'+'')
+          var self = this
+          var token = localStorage.getItem('token')
+          var decoded = jwt_decode(token);
+          console.log(decoded.aidi);
+          axios.put('http://localhost:3000/users/'+decoded.aidi, {
+            score : self.totalScore
+          })
+          .then(function(response) {
+            console.log(response.data);
+            self.twitt()
+            // self.startConverting.speechRecognizer.stop()
+          })
+          .catch(function(err) {
+            console.log(err);
+          })
         },
         startConverting() {
           var self = this
@@ -140,7 +165,9 @@
                 transcript.replace("\n", "<br>");
                 console.log(transcript);
                 console.log(self.totalScore);
-                console.log(self.soals[self.index].jawaban);
+                // console.log(self.soals[self.index].jawaban);
+                console.log('ini indexnya :: ',self.index);
+                console.log('<-------ini length------>',self.soals.length);
                 if (self.soals.length == 0) {
                   alert("You WIn THIS GAME!!")
                 } else if(transcript.toLowerCase()== " hapus semuanya"){
@@ -149,14 +176,19 @@
                 } else if (transcript.toLowerCase() == self.soals[self.index].jawaban.toLowerCase()) {
                   alert('betul')
                   self.totalScore += 20
-                  self.soals.splice(self.soals[self.index], 1)
-                  console.log("transcript", self.soals[self.index].jawaban);
+                  if(self.index == soals.length - 1) {
+                    self.soals.splice(self.soals[self.index], 1)
+                    self.index - 1
+                  } else {
+                    self.soals.splice(self.soals[self.index], 1)
+                  }
+                  // console.log("transcript", self.soals[self.index].jawaban);
                 } else if (transcript.toLowerCase()== " lanjut") {
-                  self.index += 1
+                  // self.index += 1
                   console.log('ini soalnya : ',self.soals);
-                  if (self.index < 5) {
+                  if (self.index < self.soals.length - 1) {
                     self.index += 1
-                  } else if (self.index == 5) {
+                  } else {
                     self.index = 0
                   }
                   console.log(self.index);
