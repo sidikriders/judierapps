@@ -29,7 +29,7 @@
                 </a>
               </div>
               <div class="flex-right col-md-5 col-offset-md-1">
-                <a @click="logout()">Logout</a>
+                <a @click="logoutGoGo()">Logout</a>
               </div>
             </div>
           </div>
@@ -124,6 +124,10 @@ methods: {
     .catch(function (error) {
       console.log(error);
     });
+  },
+  logoutGoGo: function() {
+    localStorage.clear()
+    location.href = '/index.html'
   }
 }
 })

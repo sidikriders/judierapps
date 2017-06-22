@@ -63,8 +63,9 @@ function updateScore(req, res) {
   User.findOne({
     _id: req.params.id
   }, function(err, result) {
-    let totalScoreUpdate = result.totalScore + req.body.score;
-    let weeklyScoreUpdate = result.weeklyScore + req.body.score;
+    let newScore = parseInt(req.body.score)
+    let totalScoreUpdate = result.totalScore + newScore;
+    let weeklyScoreUpdate = result.weeklyScore + newScore;
     User.updateOne({
       _id: req.params.id
     }, {
@@ -75,6 +76,7 @@ function updateScore(req, res) {
     })
   })
 }
+
 
 var Twitter = require('twitter');
 
@@ -94,6 +96,14 @@ function postTweet(req, res) {
     // console.log(response);  // Raw response object.
     res.send(tweet);
   });
+
+function deleteOne(req, res) {
+  User.remove({
+    _id: req.params.id
+  }, function(err, result) {
+    if (err) res.send(err)
+    res.send("1 users terhapus")
+  })
 }
 
 module.exports = {
@@ -102,6 +112,6 @@ module.exports = {
   getAllUser,
   getOneUser,
   updateScore,
-  postTweet
-
+  postTweet,
+  deleteOne
 }
