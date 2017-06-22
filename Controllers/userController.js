@@ -13,7 +13,7 @@ function logIn(req, res) {
       res.send("invalid username")
     } else {
       if (bcrypt.compareSync(req.body.password, result.password)) {
-        let token = jwt.sign({name: result.name}, "tebakGambar")
+        let token = jwt.sign({name: result.name, aidi: result._id}, "tebakGambar")
         res.send(token)
       } else {
         res.send("invalid password");
@@ -63,8 +63,9 @@ function updateScore(req, res) {
   User.findOne({
     _id: req.params.id
   }, function(err, result) {
-    let totalScoreUpdate = result.totalScore + req.body.score;
-    let weeklyScoreUpdate = result.weeklyScore + req.body.score;
+    let newScore = parseInt(req.body.score)
+    let totalScoreUpdate = result.totalScore + newScore;
+    let weeklyScoreUpdate = result.weeklyScore + newScore;
     User.updateOne({
       _id: req.params.id
     }, {
@@ -76,10 +77,20 @@ function updateScore(req, res) {
   })
 }
 
+function deleteOne(req, res) {
+  User.remove({
+    _id: req.params.id
+  }, function(err, result) {
+    if (err) res.send(err)
+    res.send("1 users terhapus")
+  })
+}
+
 module.exports = {
   logIn,
   signUp,
   getAllUser,
   getOneUser,
-  updateScore
+  updateScore,
+  deleteOne
 }

@@ -13,6 +13,9 @@ router.get('/users', userCont.getAllUser)
 router.get('/users/:id', userCont.getOneUser)
 // update sekor abis selesai main
 router.put('/users/:id', userCont.updateScore)
+// delete user
+router.delete('/users/:id', userCont.deleteOne)
+
 
 //get all soal
 router.get('/soal', soalCont.getAllSoal)

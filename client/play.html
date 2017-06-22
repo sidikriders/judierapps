@@ -50,7 +50,7 @@
                   </a>
                 </div>
                 <div class="flex-right col-md-5 col-offset-md-1">
-                  <a @click="logout()">Logout</a>
+                  <a @click="logoutGoGo()">Logout</a>
                 </div>
               </div>
             </div>
@@ -105,12 +105,17 @@
       },
       created () {
         var self = this
-        axios.get('http://localhost:3000/soal/cat/'+'testing')
-        .then(function(response) {
-          console.log(response.data);
-          self.soals = response.data
-        })
-        this.startConverting()
+        let token = localStorage.token
+        if (token == undefined) {
+          location.href = "/index.html"
+        } else {
+          axios.get('http://localhost:3000/soal/cat/'+'testing')
+          .then(function(response) {
+            console.log(response.data);
+            self.soals = response.data
+          })
+          this.startConverting()
+        }
       },
       methods: {
         updateScore () {
@@ -176,6 +181,10 @@
           }else{
             self.result = 'Your browser is not supported. If google chrome, please upgrade!';
           }
+        },
+        logoutGoGo() {
+          localStorage.clear()
+          location.href = '/index.html'
         }
       }
     })
