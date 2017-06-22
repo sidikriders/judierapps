@@ -140,20 +140,30 @@
     },
     signUpGoGo: function() {
       let self = this;
-      console.log(self.newName);
-      console.log(self.newUsername);
-      console.log(self.newPassword);
-      // axios.post('http://localhost:3000/signup', {
-      //   name: self.newName,
-      //   username: self.newUsername,
-      //   password: self.newPassword
-      // })
-      // .then(function (response) {
-      //   console.log(response);
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // })
+      axios.post('http://localhost:3000/signup', {
+        name: self.newName,
+        username: self.newUsername,
+        password: self.newPassword
+      })
+      .then(function (response) {
+        if (response.data == "User created") {
+        self.newName = '';
+        self.newUsername = ''
+        self.newPassword = ''
+        alert("user berhasil di buat, silahkan log in dengan " + self.newUsername)
+      } else {
+        self.newName = '';
+        self.newUsername = ''
+        self.newPassword = ''
+        alert("error, coba ganti username")
+      }
+      })
+      .catch(function (error) {
+        self.newName = '';
+        self.newUsername = ''
+        self.newPassword = ''
+        console.log(error);
+      })
     }
   }
 })
